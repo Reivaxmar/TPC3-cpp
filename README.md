@@ -3,7 +3,7 @@ Por las fiestas de la escuela, desde el GDGC UVa organizamos el Torneo de Progra
 
 El bot programado se enfrentará a los bots de otros equipos por ver quién continua en el torneo y termina alzandose como el ganador!!!
 
-
+Subid en el siguiente enlace vuestro fichero de comportamiento en Python antes de que empiece el torneo: <a href="https://forms.gle/vrbXj5bVzmg46sWu9" target="_blank">https://forms.gle/vrbXj5bVzmg46sWu9</a>
 
 📍Sala Hedy Lamarr de la Escuela de Ingeniería Informática de la Universidad de Valladolid.
 📆 Viernes 13 de Marzo
