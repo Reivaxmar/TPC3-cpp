@@ -8,3 +8,5 @@ El bot programado se enfrentará a los bots de otros equipos por ver quién cont
 📍Sala Hedy Lamarr de la Escuela de Ingeniería Informática de la Universidad de Valladolid.
 📆 Viernes 13 de Marzo
 ⏰ 16:00
+
+Evento organizado por Daniel López Martínez y Pablo Cabrera Vara.
