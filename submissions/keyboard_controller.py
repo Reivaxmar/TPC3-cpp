@@ -14,13 +14,13 @@ class Submission(Controller):
             self.go_left()
         if (keys[pygame.K_d]):
             self.go_right()
-        if (keys[pygame.K_SPACE]):
+        if (keys[pygame.K_w]):
             self.jump()
-        if (keys[pygame.K_UP]):
+        if (keys[pygame.K_s]):
             self.grab()
-        if (keys[pygame.K_DOWN]):
+        if (keys[pygame.K_g]):
             self.throw_down()
-        if (keys[pygame.K_RIGHT]):
+        if (keys[pygame.K_h]):
             self.throw_right()
-        if (keys[pygame.K_LEFT]):
+        if (keys[pygame.K_f]):
             self.throw_left()
