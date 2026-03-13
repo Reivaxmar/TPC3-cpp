@@ -22,6 +22,8 @@ class Fish:
         self.x_collision()
 
     def get_tile(self, x, y):
+        if (y > len(self.level) * 32):
+            return True
         if self.level[y // 32][x // 32] == 'o':
             return True
         return False

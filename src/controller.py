@@ -149,7 +149,7 @@ class Controller:
         return False
     
     def is_pixel_ground(self, x, y):
-        if (x < 0 or y < 0 or x // 32 > len(self.level[0]) or y // 32 > len(self.level)):
+        if (x < 0 or y < 0 or x // 32 > len(self.level[0]) - 1 or y // 32 > len(self.level) - 1):
             return True
         return self.level[y // 32][x // 32] == 'o'
     
