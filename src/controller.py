@@ -9,6 +9,7 @@ class Controller:
         self.fthrow_left = False
         self.fthrow_down = False
         self.level = None
+        self.pixeled_level = None
         self.fish_pos = None
         self.fish_state = None
         self.my_pos = None
@@ -42,6 +43,20 @@ class Controller:
             for j in range(len(self.level[i])):
                 if self.level[i][j] != 'o':
                     self.level[i][j] = ' '
+
+    def make_first_time_pixel_map(self):
+        # Initial map matrix
+        x_pixels = len(self.level[0]) * 32
+        y_pixels = len(self.level) * 32
+        self.pixeled_level = [[' '] * x_pixels for _ in range(y_pixels)]
+        
+        # Add terrain pixel position
+        for i in range(len(self.level)):
+            for j in range(len(self.level[i])):
+                if (self.level[i][j] == 'o'):
+                    for x in range(32):
+                        for y in range(32):
+                            self.pixeled_level[i * 32 + y][j * 32 + x] = 'o'
 
 
     def set_is_first_controller(self, is_first_controller):
@@ -159,8 +174,60 @@ class Controller:
     def get_level_y_pixel_size(self):
         return len(self.level) * 32
 
-    def get_level_matrix(self):
-        return self.level
+    def get_tile_level_matrix(self):
+        # Make a clean copy of self.level
+        lv_map = [row[:] for row in self.level]
+
+        # First we center the coordinates of the characters and get the approx tile position
+        my_tile_x = (self.my_pos[0] + 16) // 32
+        my_tile_y = (self.my_pos[1] + 16) // 32
+        other_tile_x = (self.other_player_pos[0] + 16) // 32
+        other_tile_y = (self.other_player_pos[1] + 16) // 32
+        # Add characters position (Your position is 'A' enemy position 'B')
+        # When both are in the same position, only 'B' is shown
+        lv_map[my_tile_y][my_tile_x] = 'A'
+        lv_map[other_tile_y][other_tile_x] = 'B'
+
+        # First we center the coordinates of the fishes and get the approx tile position
+        fish_tile_pos = []
+        for fish in self.fish_pos:
+            fish_tile_pos.append([(fish[0] + 16) // 32, (fish[1] + 16) // 32])
+        # Add fish position, represented by its state
+        # If grabed it will not be shown
+        for fish, state in zip(fish_tile_pos, self.fish_state):
+            if(state == 0):
+                lv_map[fish[1]][fish[0]] = '0'
+            elif(state == 1 or state == 2 or state == 3):
+                lv_map[fish[1]][fish[0]] = str(state)
+
+        return lv_map
+    
+    def get_pixel_level_matrix(self):
+        # Make a clean copy of self.pixeled_level
+        lv_map = [row[:] for row in self.pixeled_level]
+
+        # Add characters position (Your position is 'A' enemy position 'B')
+        # When both are in the same position, only 'B' is shown
+        for x in range(32):
+            for y in range(32):
+                lv_map[y + self.my_pos[1]][x + self.my_pos[0]] = 'A'
+                lv_map[y + self.other_player_pos[1]][x + self.other_player_pos[0]] = 'B'
+
+        # Add fish position, represented by its state
+        # If grabed it will not be shown
+        for fish, state in zip(self.fish_pos, self.fish_state):
+            x_fish = fish[0]
+            y_fish = fish[1]
+            if(state == 0):
+                for x in range(8,24):
+                    for y in range(32):
+                        lv_map[y + y_fish][x + x_fish] = '0'
+            elif(state == 1 or state == 2 or state == 3):
+                for x in range(2,31):
+                    for y in range(3,28):
+                        lv_map[y + y_fish][x + x_fish] = str(state)
+                                        
+        return lv_map
     
     def get_left_sudden_death(self):
         return self.game_time - 105 + 31 - 8

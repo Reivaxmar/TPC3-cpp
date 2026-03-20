@@ -74,6 +74,8 @@ def set_up(map_file, player1, player2):
     controller_2.set_is_first_controller(False)
     controller_1.set_level(current_level.get_matrix())
     controller_2.set_level(current_level.get_matrix())
+    controller_1.make_first_time_pixel_map()
+    controller_2.make_first_time_pixel_map()
     team_names[0] = controller_1.get_team_name()
     team_names[1] = controller_2.get_team_name()
 
