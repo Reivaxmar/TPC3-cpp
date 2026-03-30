@@ -15,6 +15,11 @@ parser.add_argument(
     default="xd",
     help="Nombre del archivo de la sumisión para el jugador 2 en /submissions (sin .py)"
 )
+parser.add_argument(
+    "--full-screen",
+    action="store_true"
+)
+
 args = parser.parse_args()
 
 # 2. Carga dinámica de los módulos seleccionados
@@ -45,7 +50,7 @@ except AttributeError:
 # 3. Lógica del bucle de juego
 round_num = 0
 while os.path.isfile(f"./levels/level_{round_num}.txt"):
-    game.set_up(f"./levels/level_{round_num}.txt", Player1(), Player2())
+    game.set_up(f"./levels/level_{round_num}.txt", Player1(), Player2(), full_screen=args.full_screen)
     game.loop()
     round_num += 1
 
