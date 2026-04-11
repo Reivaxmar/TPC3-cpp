@@ -377,15 +377,26 @@ class Tournament:
             print(f"  2) Dar victoria a {team_b}")
             print("  3) Elegir ganador al azar")
             print("  4) Reiniciar el partido")
+            print("  5) Ronda de desempate")
             
             choice = ""
-            while choice not in ["1", "2", "3", "4"]:
-                choice = input("Elige una opción (1/2/3/4): ").strip()
+            while choice not in ["1", "2", "3", "4", "5"]:
+                choice = input("Elige una opción (1/2/3/4/5): ").strip()
+                
+            if choice == "5":
+                print("\nJugando ronda de desempate...")
+                if match_round == len(self.bracket) - 1:
+                    tie_round = max(0, match_round - 1)
+                else:
+                    tie_round = match_round + 1
+                    
+                tie_levels_dir = self.levels[tie_round] if tie_round < len(self.levels) else self.levels[-1]
+                cmd = [sys.executable, "main.py", team_a, team_b, "--full-screen", "--levels-dir", tie_levels_dir]
+                continue
                 
             if choice == "4":
                 print("\nReiniciando el partido...")
-                continue
-                
+                continue                
             if choice == "3":
                 winner = random.choice([team_a, team_b])
                 score = [1, 0] if winner == team_a else [0, 1]
