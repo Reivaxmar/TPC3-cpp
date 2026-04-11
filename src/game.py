@@ -10,7 +10,7 @@ from src.sudden_death import SuddenDeath
 pygame.init()
 
 SCALE_FACTOR = 1  # Scale factor to enlarge the window
-window = pygame.display.set_mode((600, 400), pygame.RESIZABLE) 
+window = None
 pygame.display.set_caption("TPC3")
 base_resolution = None
 center = None
@@ -26,10 +26,10 @@ font = pygame.font.Font(None, 28)
 base_surface = None
 
 # Load images
-tileset = chop_into_frames(pygame.image.load("./assets/tileset.png").convert_alpha(), 32 , 32)
-background = chop_into_frames(pygame.image.load("./assets/background.png").convert_alpha(), 32 , 32)
-fish_sprites = chop_into_frames(pygame.image.load("./assets/Pufferfish.png").convert_alpha(), 32, 32)
-sudden_death_sprites = chop_into_frames(pygame.image.load("./assets/SuddenDeath.png").convert_alpha(), 32, 32)
+tileset = None
+background = None
+fish_sprites = None
+sudden_death_sprites = None
 # Create Level
 current_level = None
 
@@ -54,8 +54,9 @@ b_holding = False
 frame_rate = 60
 
 
-def set_up(map_file, player1, player2):
+def set_up(map_file, player1, player2, full_screen=False):
     global base_resolution, center, window, base_surface, player_a, player_b, fish, current_level, controller_1, controller_2, a_holding, b_holding, death, sudden_death
+    global tileset, background, fish_sprites, sudden_death_sprites
 
     # Read map
     current_level = Level(map_file)
@@ -64,7 +65,19 @@ def set_up(map_file, player1, player2):
     base_resolution = (current_level.get_width() * 32, current_level.get_height() * 32)
     center = (base_resolution[0] / 2, base_resolution[1] / 2)
     # window = pygame.display.set_mode((base_resolution[0] * SCALE_FACTOR, base_resolution[1] * SCALE_FACTOR), pygame.RESIZABLE) 
-    # window = pygame.display.set_mode((800, 600), pygame.RESIZABLE) 
+    
+    if not full_screen:
+        window = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
+    elif window is None:
+        window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    
+    if not tileset:
+        tileset = chop_into_frames(pygame.image.load("./assets/tileset.png").convert_alpha(), 32 , 32)
+        background = chop_into_frames(pygame.image.load("./assets/background.png").convert_alpha(), 32 , 32)
+        fish_sprites = chop_into_frames(pygame.image.load("./assets/Pufferfish.png").convert_alpha(), 32, 32)
+        sudden_death_sprites = chop_into_frames(pygame.image.load("./assets/SuddenDeath.png").convert_alpha(), 32, 32)
+    
+    
     base_surface = pygame.Surface(base_resolution)
     window.fill((0, 0, 0))
     pygame.display.flip()

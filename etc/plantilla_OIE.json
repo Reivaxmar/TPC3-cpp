@@ -1,0 +1,25 @@
+{
+	"name": "OIE",
+	"participants": [
+		"equipo1",
+		"equipo2",
+		"equipo3",
+		"equipo4",
+		"equipo5",
+		"equipo6",
+		"equipo7",
+		"equipo8",
+		"equipo9",
+		"equipo10",
+		"equipo11",
+		"equipo12",
+		"equipo13",
+		"equipo14"
+	],
+	"levels": [
+		"octavos",
+		"cuartos",
+		"semifinales",
+		"final"
+	]
+}
