@@ -104,9 +104,12 @@ void Game::loop() {
         }
 
         // --- Speed control ---
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) frame_rate = 60;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) frame_rate = 120;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) frame_rate = 240;
+        static constexpr int FPS_NORMAL = 60;
+        static constexpr int FPS_X2     = 120;
+        static constexpr int FPS_X4     = 240;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) frame_rate = FPS_NORMAL;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) frame_rate = FPS_X2;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) frame_rate = FPS_X4;
 
         // --- Logic ---
         if (!death[0] && !death[1]) {

@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "Controller.hpp"  // for SUDDEN_DEATH_DELAY
 
 class SuddenDeath {
 public:

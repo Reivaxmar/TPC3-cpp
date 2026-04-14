@@ -276,7 +276,10 @@ private:
         while (size < (int)teams.size()) size <<= 1;
         while ((int)teams.size() < size) teams.push_back("");  // BYE
 
-        // Standard seeding order
+        // Standard bracket seeding: places seed 0 opposite seed (N-1), seed 1 opposite
+        // seed (N-2), etc., so that the top seeds only meet in later rounds.
+        // The formula `curr*2-1-s` maps each existing seed s to its "mirror" in the
+        // next power-of-two bracket size.
         std::vector<int> seeds = {0};
         while ((int)seeds.size() < size) {
             int curr = (int)seeds.size();

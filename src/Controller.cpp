@@ -72,25 +72,25 @@ bool Controller::is_enemy_grabbing_fish() const {
 
 bool Controller::is_pixel_ground(int x, int y) const {
     if (x < 0 || y < 0) return true;
-    int tx = x / 32, ty = y / 32;
+    int tx = x / TILE_SIZE, ty = y / TILE_SIZE;
     if (tx >= (int)level[0].size() || ty >= (int)level.size()) return true;
     return level[ty][tx] == 'o';
 }
 
 int Controller::get_level_x_pixel_size() const {
-    return (int)level[0].size() * 32;
+    return (int)level[0].size() * TILE_SIZE;
 }
 
 int Controller::get_level_y_pixel_size() const {
-    return (int)level.size() * 32;
+    return (int)level.size() * TILE_SIZE;
 }
 
 std::vector<std::vector<char>> Controller::get_tile_level_matrix() const {
     auto lv = level;  // copy
-    int my_tx    = (my_pos.first  + 16) / 32;
-    int my_ty    = (my_pos.second + 16) / 32;
-    int oth_tx   = (other_player_pos.first  + 16) / 32;
-    int oth_ty   = (other_player_pos.second + 16) / 32;
+    int my_tx    = (my_pos.first  + TILE_SIZE / 2) / TILE_SIZE;
+    int my_ty    = (my_pos.second + TILE_SIZE / 2) / TILE_SIZE;
+    int oth_tx   = (other_player_pos.first  + TILE_SIZE / 2) / TILE_SIZE;
+    int oth_ty   = (other_player_pos.second + TILE_SIZE / 2) / TILE_SIZE;
 
     auto clampX = [&](int x){ return std::clamp(x, 0, (int)lv[0].size()-1); };
     auto clampY = [&](int y){ return std::clamp(y, 0, (int)lv.size()-1); };
@@ -99,8 +99,8 @@ std::vector<std::vector<char>> Controller::get_tile_level_matrix() const {
     lv[clampY(oth_ty)][clampX(oth_tx)] = 'B';
 
     for (int i = 0; i < (int)fish_pos.size(); ++i) {
-        int fx = (fish_pos[i].first  + 16) / 32;
-        int fy = (fish_pos[i].second + 16) / 32;
+        int fx = (fish_pos[i].first  + TILE_SIZE / 2) / TILE_SIZE;
+        int fy = (fish_pos[i].second + TILE_SIZE / 2) / TILE_SIZE;
         int s  = fish_state[i];
         if (s == 0 || s == 1 || s == 2 || s == 3)
             lv[clampY(fy)][clampX(fx)] = (char)('0' + s);
@@ -141,13 +141,13 @@ std::vector<std::vector<char>> Controller::get_pixel_level_matrix() const {
 }
 
 int Controller::get_left_sudden_death() const {
-    return game_time - 420 + 31 - 8;
+    return game_time - SUDDEN_DEATH_DELAY + 31 - 8;
 }
 
 int Controller::get_right_sudden_death() const {
-    return get_level_x_pixel_size() - game_time + 420 + 8 - 31;
+    return get_level_x_pixel_size() - game_time + SUDDEN_DEATH_DELAY + 8 - 31;
 }
 
 bool Controller::is_sudden_death_active() const {
-    return (game_time - 420 + 31) > 0;
+    return (game_time - SUDDEN_DEATH_DELAY + 31) > 0;
 }

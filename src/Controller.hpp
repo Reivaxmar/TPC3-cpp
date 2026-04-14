@@ -6,6 +6,11 @@
 #include <map>
 #include <memory>
 
+// Tile size in pixels (shared across the whole engine)
+inline constexpr int TILE_SIZE = 32;
+// Frames before sudden death starts
+inline constexpr int SUDDEN_DEATH_DELAY = 420;
+
 class Controller {
 public:
     // Bot settings (set inside info())

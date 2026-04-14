@@ -16,16 +16,16 @@ void SuddenDeath::draw_spikes(sf::RenderTexture&              target,
     for (int row = 0; row < level_height; row += 32) {
         // Left spike tip
         sp_tip.setScale(1.f, 1.f);
-        sp_tip.setPosition((float)(time - 420), (float)row);
+        sp_tip.setPosition((float)(time - SUDDEN_DEATH_DELAY), (float)row);
         target.draw(sp_tip);
 
         // Right spike tip (flipped)
         sp_tip.setScale(-1.f, 1.f);
-        sp_tip.setPosition((float)(level_width - time + 420 - 32 + 32), (float)row);
+        sp_tip.setPosition((float)(level_width - time + SUDDEN_DEATH_DELAY - 32 + 32), (float)row);
         target.draw(sp_tip);
 
         // Left wall fill
-        int px = time - 420 - 32;
+        int px = time - SUDDEN_DEATH_DELAY - 32;
         while (px > -32) {
             sp_wall.setPosition((float)px, (float)row);
             target.draw(sp_wall);
@@ -33,7 +33,7 @@ void SuddenDeath::draw_spikes(sf::RenderTexture&              target,
         }
 
         // Right wall fill
-        px = level_width - time + 420;
+        px = level_width - time + SUDDEN_DEATH_DELAY;
         while (px < level_width) {
             sp_wall.setPosition((float)px, (float)row);
             target.draw(sp_wall);
@@ -44,8 +44,8 @@ void SuddenDeath::draw_spikes(sf::RenderTexture&              target,
 
 bool SuddenDeath::check_death(int time, std::pair<int,int> pos) const {
     // Left wall kills
-    if ((time - 420 + 31 - 8) > pos.first) return true;
+    if ((time - SUDDEN_DEATH_DELAY + 31 - 8) > pos.first) return true;
     // Right wall kills
-    if ((level_width - time + 420 - 32 + 8) < (pos.first + 31)) return true;
+    if ((level_width - time + SUDDEN_DEATH_DELAY - 32 + 8) < (pos.first + 31)) return true;
     return false;
 }
