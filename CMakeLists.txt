@@ -29,3 +29,15 @@ target_link_libraries(TPC3
     sfml-window
     sfml-system
 )
+
+# On Windows the SFML DLLs must sit next to the executable or the Windows
+# loader will refuse to start the program before main() is ever reached.
+if(WIN32)
+    add_custom_command(TARGET TPC3 POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:sfml-graphics>
+            $<TARGET_FILE:sfml-window>
+            $<TARGET_FILE:sfml-system>
+            $<TARGET_FILE_DIR:TPC3>
+    )
+endif()
