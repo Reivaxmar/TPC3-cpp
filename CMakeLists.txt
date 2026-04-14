@@ -61,3 +61,14 @@ if(WIN32)
             $<TARGET_FILE_DIR:TPC3>
     )
 endif()
+
+# Copy levels and assets folders to the executable directory
+add_custom_command(TARGET TPC3 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/levels
+        $<TARGET_FILE_DIR:TPC3>/levels
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:TPC3>/assets
+)

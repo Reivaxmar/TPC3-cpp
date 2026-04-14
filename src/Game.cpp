@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include <iostream>
+#include <filesystem>
 #include <array>
 
 // Font paths to try (common on Linux)
@@ -8,14 +9,20 @@ static const char* FONT_PATHS[] = {
     "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
     "/usr/share/fonts/truetype/freefont/FreeSans.ttf",
     "/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",
+    // Common Windows font fallback
+    "C:\\Windows\\Fonts\\arial.ttf",
+    // Local assets fallback (if you bundle a font into assets/)
+    "./assets/DejaVuSans.ttf",
     nullptr
 };
 
 Game::Game() {
     for (int i = 0; FONT_PATHS[i]; ++i) {
-        if (hud_font.loadFromFile(FONT_PATHS[i])) {
-            font_loaded = true;
-            break;
+        if (std::filesystem::exists(FONT_PATHS[i])) {
+            if (hud_font.loadFromFile(FONT_PATHS[i])) {
+                font_loaded = true;
+                break;
+            }
         }
     }
 }
@@ -48,7 +55,7 @@ void Game::set_up(const std::string& map_file,
                           sf::Style::Fullscreen);
         else
             window.create(sf::VideoMode(800, 600), "TPC3", sf::Style::Resize);
-        window.setFramerateLimit(0);
+        window.setFramerateLimit(60);
     }
 
     controller_1 = std::move(p1);

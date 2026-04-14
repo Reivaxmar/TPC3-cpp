@@ -87,11 +87,31 @@ static std::array<int,2> play_levels(const std::string& p1_name,
 
     Game game;
     int round_num = 0;
-    std::string dir = "./levels/" + levels_dir;
+
+    // Try a few candidate base directories so the program works when run from
+    // the build directory (where levels are usually in the parent project dir).
+    auto find_map = [&](int rn) -> std::string {
+        std::vector<fs::path> candidates;
+        // If levels_dir is just "." treat it as top-level 'levels' folder
+        if (levels_dir == ".") {
+            candidates.push_back(fs::path("./levels"));
+            candidates.push_back(fs::path("../levels"));
+            candidates.push_back(fs::path("../../levels"));
+        } else {
+            candidates.push_back(fs::path("./levels") / levels_dir);
+            candidates.push_back(fs::path("../levels") / levels_dir);
+            candidates.push_back(fs::path("../../levels") / levels_dir);
+        }
+        for (auto& base : candidates) {
+            fs::path mp = base / ("level_" + std::to_string(rn) + ".txt");
+            if (fs::exists(mp)) return mp.string();
+        }
+        return std::string();
+    };
 
     while (true) {
-        std::string map = dir + "/level_" + std::to_string(round_num) + ".txt";
-        if (!fs::exists(map)) break;
+        std::string map = find_map(round_num);
+        if (map.empty()) break;
 
         auto ctrl1 = reg.create(p1_name);
         auto ctrl2 = reg.create(p2_name);
