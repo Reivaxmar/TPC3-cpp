@@ -14,6 +14,7 @@
 #include "submissions/keyboard.hpp"
 #include "submissions/keyboard2.hpp"
 #include "submissions/pon_tu_nombre.hpp"
+#include "submissions/opbot.hpp"
 
 #include "src/Game.hpp"
 #include "third_party/json.hpp"
