@@ -240,7 +240,7 @@ private:
         tx = ty = -1;
 
         for (int i = 0; i < (int)fps.size(); ++i) {
-            if (fss[i] < 0 || fss[i] > 3) continue; // not free
+            if (fss[i] < 0) continue; // held by a player (get_list_fish_state returns -1 for states 4/5)
 
             float d_me = std::hypot((float)(fps[i].first - mx), (float)(fps[i].second - my));
             float d_en = std::hypot((float)(fps[i].first - ex), (float)(fps[i].second - ey));
